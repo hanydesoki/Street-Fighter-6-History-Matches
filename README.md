@@ -45,7 +45,7 @@ while removing duplicates.
 #### Data columns: 
 
 - main_player_name - str - Main player user name
-- main_player_sid - str - Main player short id
+- main_player_sid - int - Main player short id
 - main_player_character - str - Main player character name
 - main_player_score - int - Main player round won
 - main_player_mr - int - Main player MR during the match
@@ -53,7 +53,7 @@ while removing duplicates.
 - main_player_platform - str - Main player platform name
 
 - opposite_player_name - str - Opposite player user name
-- opposite_player_sid - str - Opposite player short id
+- opposite_player_sid - int - Opposite player short id
 - opposite_player_character - str - Opposite player character name
 - opposite_player_score - int - Opposite player round won
 - opposite_player_mr - int - Opposite player MR during the match
