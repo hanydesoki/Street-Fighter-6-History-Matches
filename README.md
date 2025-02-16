@@ -63,6 +63,15 @@ in the file while keeping the older ones so we have 105 matches.
 To keep track of all of your matches, running this script at the end of each session is the way to go but we can run it more frequently
 if we want.
 
+To run it, open a terminal in the script directory and run:
+```shell
+python sf6_match_collection.py
+```
+It will ask you to close the excel file if it exists, then press ENTER.
+
+The script will fetch trough 10 pages of matches to retrieve in total 100 matches and save them in an excel file in the same directory.
+If the file already exists with old match saved, it will concatenate them with the new ones and remove duplicates.
+
 ## Data columns: 
 
 **Note**: Main player mean that it is the player that correspond to the provided player short id.
