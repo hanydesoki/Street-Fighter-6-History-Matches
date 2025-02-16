@@ -5,7 +5,7 @@ can retrieve them in seconds using https requests with the SF6 Buckler hidden AP
 
 **Make sure to setup all the requierment below before running the main script (sf6_match_collection.py)**
 
-The data collected will be stored in an excel file and contains useful informations for each matches like the the round scores,
+The data collected will be stored in an excel file and contains useful informations for each matches like the round scores,
 player side, character used etc... You can check the **sf6_match_analysis.ipynb** analysis notebook to get an example of collected data.
 The schema is also explained [below](#data-columns).
 
