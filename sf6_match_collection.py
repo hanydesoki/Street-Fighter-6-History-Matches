@@ -75,7 +75,8 @@ PLAYER_SID: int = 1572500566 # MDZ_Jimmy
 excel_file: str = f"player_{PLAYER_SID}_sf6_matches.xlsx"
 
 # Ask close files
-input(f"This script will save on {repr(excel_file)} file. If it exists, make sure it is closed and press ENTER to proceed.\n")
+if os.path.exists(excel_file):
+    input(f"This script will save on {repr(excel_file)} file. Make sure it is closed and press ENTER to proceed.\n")
 
 # HTTPS request setup
 base_url: str = f"https://www.streetfighter.com/6/buckler/_next/data/5Qf16SWkd2SZoNO6yXdEg/en/profile/{PLAYER_SID}/battlelog.json"
