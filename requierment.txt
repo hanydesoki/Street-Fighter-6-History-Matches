@@ -1,4 +1,5 @@
 matplotlib
 pandas
+openpyxl
 tqdm
 requests
