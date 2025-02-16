@@ -1,27 +1,34 @@
 # Street Fighter 6 History Matches
 
-## Requierment
+This project is a program that make an historization of the last Street Fighter 6 matches of a specific player without an interface so we
+can retrieve them in seconds using https requests in the SF6 Buckler hidden API.
 
+**Make sure to setup all the requierment bellow before running the main script (sf6_match_collection.py)**
+
+The data collected will be stored in an excel file and contains useful informations for each matches like the the round scores,
+player side, character used etc... You can check the **sf6_match_analysis.ipynb** analysis notebook to check an example of collected data.
+The schema is also explained [below](#data-columns).
+
+## Requierments
+
+### Python libraries
 These scripts use external libraries. They are in the requierment.txt file.
 Use this command to install all of them.
 
-```cmd
+```shell
 pip install -r requierment.txt
 ```
 
-## Data collection script
+### Setup and configuration of headers.json file 
 
-sf6_match_collection.py script collect the last 100 Street Fighter 6 match data and save them in a excel file. 
-It will aslo stacks with older saved matches (without duplicates) to make an historization. 
-For example if we already saved 100 matches and we run the script later after doing 5 matches it will add them
-in the file.
-
-**BEFORE RUNNING THIS SCRIPT**: We must configure the headers.json file and also retrieve the player short ID
+**BEFORE RUNNING THE SCRIPT**: We must configure the **headers.json** file and also retrieve the **player short ID**
 to make it work:
+
+**Retrieve the player short id**
 
 - Go to the player profile page in https://www.streetfighter.com/6/buckler. 
 
-- Get the 'User Code' for the PLAYER_SID variable.
+- Get the 'User Code' and paste it in the 'PLAYER_SID' variable as an integer in **sf6_match_collection.py**.
 
 The following steps should be done once to configure the headers.json file so the https request works.
 These steps are done using the Chrome browser but it can normally be done in any other web browser:
@@ -38,39 +45,50 @@ These steps are done using the Chrome browser but it can normally be done in any
   Click on it to open the header informations.
 
 - In the 'Request Headers' section, copy the whole Cookie value and paste it 
-  into the 'Cookie' key in headers.json file. Same for 'User-Agent'.
+  into the **'Cookie'** key in **headers.json** file. Same for **'User-Agent'**.
+  **Don't share the cookie informations to anywone else! It may contains your authentifications.**
 
 If the steps are done well you can normally run the script. It will collect data and save them into a
-xlsx (excel) file (Make sure to close it if it exists). 
-If the file already exists it will add all the new collected matches in it 
-while removing duplicates.
+xlsx (excel) file **(Make sure to close it if it exists)**. 
 
-#### Data columns: 
+**This script doesn't manage data schema changes!**
 
-- main_player_name - str - Main player user name
-- main_player_sid - int - Main player short id
-- main_player_character - str - Main player character name
-- main_player_score - int - Main player round won
-- main_player_mr - int - Main player MR during the match
-- main_player_input_type - int - Main player input type (0 for (C) and 1 for [M])
-- main_player_platform - str - Main player platform name
+## Data collection script
 
-- opposite_player_name - str - Opposite player user name
-- opposite_player_sid - int - Opposite player short id
-- opposite_player_character - str - Opposite player character name
-- opposite_player_score - int - Opposite player round won
-- opposite_player_mr - int - Opposite player MR during the match
-- opposite_player_input_type - Opposite - Main player input type (0 for (C) and 1 for [M])
-- opposite_player_platform - Opposite - Main player platform name
+**sf6_match_collection.py** script collect the last 100 Street Fighter 6 match data and save them in an excel file. 
+It will aslo stacks with older saved matches (without duplicates) to make an historization. 
+For example if we already saved 100 matches and we run the script later after doing 5 matches it will add these 5 new matches
+in the file while keeping the older ones so we have 105 matches.
 
-- match_won - int - Main player won the match (1 for won and 0 for lost)
-- left_side - int - Main player is on the left side (0 for right side and 1 for left side)
-- uploaded_at - Timestamp - Timestamp of the match
-- replay_id - str - Replay ID
-- replay_battle_type_name - str - Match type (Ranked Match, Custom Room ...)
+To keep track of all of your matches, running this script at the end of each session is the way to go but we can run it more frequently
+if we want.
 
-This script doesn't manage data schema changes!
+## Data columns: 
+
+**Note**: Main player mean that it is the player that correspond provided player short id
+
+- **main_player_name** - str - Main player user name
+- **main_player_sid** - int - Main player short id
+- **main_player_character** - str - Main player character name
+- **main_player_score** - int - Main player round won
+- **main_player_mr** - int - Main player MR during the match
+- **main_player_input_type** - int - Main player input type (0 for (C) and 1 for [M])
+- **main_player_platform** - str - Main player platform name
+
+- **opposite_player_name** - str - Opposite player user name
+- **opposite_player_sid** - int - Opposite player short id
+- **opposite_player_character** - str - Opposite player character name
+- **opposite_player_score** - int - Opposite player round won
+- **opposite_player_mr** - int - Opposite player MR during the match
+- **opposite_player_input_type** - Opposite - Main player input type (0 for (C) and 1 for [M])
+- **opposite_player_platform** - Opposite - Main player platform name
+
+- **match_won** - int - Main player won the match (1 for won and 0 for lost)
+- **left_side** - int - Main player is on the left side (0 for right side and 1 for left side)
+- **uploaded_at** - Timestamp - Timestamp of the match
+- **replay_id** - str - Replay ID
+- **replay_battle_type_name** - str - Match type (Ranked Match, Custom Room ...)
 
 ### Data analysis notebook
 
-sf6_match_analysis.ipynb notebook is an example of sf6 matche data analysis code
+**sf6_match_analysis.ipynb** notebook is an example of sf6 match data analysis code. It can be runned after collecting the data in the excel file.
