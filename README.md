@@ -65,7 +65,7 @@ if we want.
 
 ## Data columns: 
 
-**Note**: Main player mean that it is the player that correspond to provided player short id.
+**Note**: Main player mean that it is the player that correspond to the provided player short id.
 
 - **main_player_name** - str - Main player user name
 - **main_player_sid** - int - Main player short id
