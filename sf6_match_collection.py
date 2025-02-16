@@ -112,6 +112,7 @@ match_results: dict = {
 
 match_results_template: dict = copy.deepcopy(match_results)
 
+print("Fetching the last 100 matches...")
 # Data fetching: Can only fetch the last 100 matches through 10 pages.
 for page in tqdm.tqdm(range(1, 11)):
 
