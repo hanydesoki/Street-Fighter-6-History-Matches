@@ -36,6 +36,9 @@ Data columns:
     main_player_sid - int - Main player short id
     main_player_character - str - Main player character name
     main_player_score - int - Main player round won
+    main_player_league_rank - int - Main player leagure rank (36 => Master Rank)
+    main_player_lp - int - Main player LP during the match
+    main_player_mr_ranking - int - Main player world ranking
     main_player_mr - int - Main player MR during the match
     main_player_input_type - int - Main player input type (0 for (C) and 1 for [M])
     main_player_platform - str - Main player platform name
@@ -44,6 +47,9 @@ Data columns:
     opposite_player_sid - int - Opposite player short id
     opposite_player_character - str - Opposite player character name
     opposite_player_score - int - Opposite player round won
+    opposite_player_league_rank - int - Opposite player leagure rank (36 => Master Rank)
+    opposite_player_lp - int - Opposite player LP during the match
+    opposite_player_mr_ranking - int - Opposite player world ranking
     opposite_player_mr - int - Opposite player MR during the match
     opposite_player_input_type - Opposite - Main player input type (0 for (C) and 1 for [M])
     opposite_player_platform - Opposite - Main player platform name
