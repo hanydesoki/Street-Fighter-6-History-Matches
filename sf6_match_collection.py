@@ -82,7 +82,7 @@ if os.path.exists(excel_file):
 base_url: str = f"https://www.streetfighter.com/6/buckler/_next/data/5Qf16SWkd2SZoNO6yXdEg/en/profile/{PLAYER_SID}/battlelog.json"
 
 # Retrieve headers
-with open("headers.json") as f:
+with open("headers_test.json") as f:
     headers: dict = json.load(f)
 
 # Data collection initialization
@@ -91,7 +91,10 @@ match_results: dict = {
     "main_player_sid": [],
     "main_player_character": [],
     "main_player_score": [],
+    "main_player_league_rank": [],
+    "main_player_lp": [],
     "main_player_mr": [],
+    "main_player_mr_ranking": [],
     "main_player_input_type": [],
     "main_player_platform": [],
 
@@ -99,7 +102,10 @@ match_results: dict = {
     "opposite_player_sid": [],
     "opposite_player_character": [],
     "opposite_player_score": [],
+    "opposite_player_league_rank": [],
+    "opposite_player_lp": [],
     "opposite_player_mr": [],
+    "opposite_player_mr_ranking": [],
     "opposite_player_input_type": [],
     "opposite_player_platform": [],
 
@@ -163,6 +169,15 @@ for page in tqdm.tqdm(range(1, 11)):
         main_player_mr: int = main_player.get("master_rating", None)
         opposite_player_mr: int = opposite_player.get("master_rating", None)
 
+        main_player_lp: int = main_player.get("league_point", None)
+        opposite_player_lp: int = opposite_player.get("league_point", None)
+
+        main_player_mr_ranking: int = main_player.get("master_rating_ranking", None)
+        opposite_player_mr_ranking: int = main_player.get("master_rating_ranking", None)
+
+        main_player_league_rank: int = main_player.get("league_rank", None)
+        opposite_player_league_rank: int = main_player.get("league_rank", None)
+        
         match_won: bool = main_player_score > opposite_player_score
 
         match_results["main_player_name"].append(main_player_name)
@@ -170,16 +185,22 @@ for page in tqdm.tqdm(range(1, 11)):
         match_results["main_player_character"].append(main_player_character)
         match_results["main_player_score"].append(main_player_score)
         match_results["main_player_mr"].append(main_player_mr)
+        match_results["main_player_lp"].append(main_player_lp)
         match_results["main_player_input_type"].append(main_player_input_type)
         match_results["main_player_platform"].append(main_player_platform)
+        match_results["main_player_mr_ranking"].append(main_player_mr_ranking)
+        match_results["main_player_league_rank"].append(main_player_league_rank)
 
         match_results["opposite_player_name"].append(opposite_player_name)
         match_results["opposite_player_sid"].append(opposite_player_sid)
         match_results["opposite_player_character"].append(opposite_player_character)
         match_results["opposite_player_score"].append(opposite_player_score)
         match_results["opposite_player_mr"].append(opposite_player_mr)
+        match_results["opposite_player_lp"].append(opposite_player_lp)
         match_results["opposite_player_input_type"].append(opposite_player_input_type)
         match_results["opposite_player_platform"].append(opposite_player_platform)
+        match_results["opposite_player_mr_ranking"].append(opposite_player_mr_ranking)
+        match_results["opposite_player_league_rank"].append(opposite_player_league_rank)
 
         match_results["match_won"].append(int(match_won))
         match_results["left_side"].append(int(left_side))
