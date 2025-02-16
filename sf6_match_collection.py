@@ -55,7 +55,6 @@ Data columns:
     replay_battle_type_name - str - Match type (Ranked Match, Custom Room ...)
 
 This script doesn't manage data schema changes!
-
 """
 
 import os
@@ -73,20 +72,20 @@ PLAYER_SID: int = 1572500566 # MDZ_Jimmy
 
 # Save file paths
 # csv_file = f"player_{PLAYER_SID}_sf6_matches.csv"
-excel_file = f"player_{PLAYER_SID}_sf6_matches.xlsx"
+excel_file: str = f"player_{PLAYER_SID}_sf6_matches.xlsx"
 
 # Ask close files
 input(f"This script will save on {repr(excel_file)} file. If it exists, make sure it is closed and press ENTER to proceed.\n")
 
 # HTTPS request setup
-base_url = f"https://www.streetfighter.com/6/buckler/_next/data/5Qf16SWkd2SZoNO6yXdEg/en/profile/{PLAYER_SID}/battlelog.json"
+base_url: str = f"https://www.streetfighter.com/6/buckler/_next/data/5Qf16SWkd2SZoNO6yXdEg/en/profile/{PLAYER_SID}/battlelog.json"
 
 # Retrieve headers
 with open("headers.json") as f:
     headers: dict = json.load(f)
 
 # Data collection initialization
-match_results = {
+match_results: dict = {
     "main_player_name": [],
     "main_player_sid": [],
     "main_player_character": [],
@@ -188,7 +187,7 @@ for page in tqdm.tqdm(range(1, 11)):
 
 
 
-df_matches = pd.DataFrame(match_results)
+df_matches: pd.DataFrame = pd.DataFrame(match_results)
 
 # Convert match date into a readable timestamp
 df_matches["uploaded_at"] = df_matches["uploaded_at"].map(datetime.datetime.fromtimestamp)
