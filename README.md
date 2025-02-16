@@ -11,7 +11,10 @@ pip install -r requierment.txt
 
 ## Data collection script
 
-sf6_match_collection.py script collect the last 100 Street Fighter 6 match data and save them.
+sf6_match_collection.py script collect the last 100 Street Fighter 6 match data and save them in a excel file. 
+It will aslo stacks with older saved matches (without duplicates) to make an historization. 
+For example if we already saved 100 matches and we run the script later after doing 5 matches it will add them
+in the file.
 
 **BEFORE RUNNING THIS SCRIPT**: We must configure the headers.json file and also retrieve the player short ID
 to make it work:
@@ -31,7 +34,7 @@ These steps are done using the Chrome browser but it can normally be done in any
 - In the main page scroll down to see the paging section and 
   clear the network log (Ctrl + L) to make it easier for the next step.
 
-- Go to another page: A request named 'battlelog.json?page=...' should appear. 
+- Click to another page: A request named 'battlelog.json?page=...' should appear. 
   Click on it to open the header informations.
 
 - In the 'Request Headers' section, copy the whole Cookie value and paste it 
