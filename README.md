@@ -48,7 +48,7 @@ These steps are done using the Chrome browser but it can normally be done in any
   into the **'Cookie'** key in **headers.json** file. Same for **'User-Agent'**.
   **Don't share the cookie informations to anywone else! It may contains your authentifications.**
 
-<img src=https://github.com/hanydesoki/Street-Fighter-6-History-Matches/blob/main/Screen_and_illustrations/network_headers.PNG/>
+<img src="https://github.com/hanydesoki/Street-Fighter-6-History-Matches/blob/main/Screen_and_illustrations/network_headers.PNG"/>
 
 If the steps are done well you can normally run the script. It will collect data and save them into a
 xlsx (excel) file **(Make sure to close it if it exists)**. 
@@ -73,6 +73,8 @@ It will ask you to close the excel file if it exists, then press ENTER.
 
 The script will fetch trough 10 pages of matches to retrieve in total 100 matches and save them in an excel file in the same directory.
 If the file already exists with old match saved, it will concatenate them with the new ones and remove duplicates.
+
+<img src="https://github.com/hanydesoki/Street-Fighter-6-History-Matches/blob/main/Screen_and_illustrations/script_output_example.PNG"/>
 
 ## Data columns: 
 
