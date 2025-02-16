@@ -13,14 +13,14 @@ pip install -r requierment.txt
 
 sf6_match_collection.py script collect the last 100 Street Fighter 6 match data and save them.
 
-**BEFORE RUNNING THIS SCRIPT**: The user must retrieve user agent and cookie information to access
-battle data and make the script work:
+**BEFORE RUNNING THIS SCRIPT**: We must configure the headers.json file and also retrieve the player short ID
+to make it work:
 
 - Go to the player profile page in https://www.streetfighter.com/6/buckler. 
 
 - Get the 'User Code' for the PLAYER_SID variable.
 
-The following steps should be done once to setup the right requst headers so the https request works.
+The following steps should be done once to configure the headers.json file so the https request works.
 These steps are done using the Chrome browser but it can normally be done in any other web browser:
 
 - In the player profile, go into the history tab to see all of your history matches.
@@ -35,7 +35,7 @@ These steps are done using the Chrome browser but it can normally be done in any
   Click on it to open the header informations.
 
 - In the 'Request Headers' section, copy the whole Cookie value and paste it 
-  into the 'COOKIE' variable in the script. Same for User-Agent.
+  into the 'Cookie' key in headers.json file. Same for 'User-Agent'.
 
 If the steps are done well you can normally run the script. It will collect data and save them into a
 xlsx (excel) file (Make sure to close it if it exists). 

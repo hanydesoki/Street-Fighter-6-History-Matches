@@ -1,14 +1,14 @@
 """
 Script to collect the last 100 Street Fighter 6 match data and save them.
 
-BEFORE RUNNING THIS SCRIPT: We must retrieve user agent and cookie information to access
-battle data and make the script work:
+BEFORE RUNNING THIS SCRIPT: We must configure the headers.json file and also retrieve the player short ID
+to make it work:
 
 - Go to the player profile page in https://www.streetfighter.com/6/buckler. 
 
 - Get the 'User Code' for the PLAYER_SID variable.
 
-The following steps should be done once to setup the right requst headers so the https request works.
+The following steps should be done once to configure the headers.json file so the https request works.
 These steps are done using the Chrome browser but it can normally be done in any other web browser:
 
 - In the player profile, go into the history tab to see all of your history matches.
@@ -23,7 +23,7 @@ These steps are done using the Chrome browser but it can normally be done in any
   Click on it to open the header informations.
 
 - In the 'Request Headers' section, copy the whole Cookie value and paste it 
-  into the 'COOKIE' variable in the script. Same for User-Agent.
+  into the 'Cookie' key in headers.json file. Same for 'User-Agent'.
 
 If the steps are done well you can normally run the script. It will collect data and save them into a
 xlsx (excel) file (Make sure to close it if it exists). 
@@ -61,14 +61,12 @@ This script doesn't manage data schema changes!
 import os
 import json
 import datetime
+import copy
 
 import requests
 import pandas as pd
 import tqdm
 
-# Header params
-USER_AGENT = "<Paste User Agent Here>"
-COOKIE = "<Paste Cookie Here>"
 
 # Player short id
 PLAYER_SID: int = 1572500566 # MDZ_Jimmy
@@ -83,10 +81,9 @@ input(f"This script will save on {repr(excel_file)} file. If it exists, make sur
 # HTTPS request setup
 base_url = f"https://www.streetfighter.com/6/buckler/_next/data/5Qf16SWkd2SZoNO6yXdEg/en/profile/{PLAYER_SID}/battlelog.json"
 
-headers = {
-    "User-Agent": USER_AGENT,
-    "Cookie": COOKIE,
-}
+# Retrieve headers
+with open("headers.json") as f:
+    headers: dict = json.load(f)
 
 # Data collection initialization
 match_results = {
@@ -112,6 +109,8 @@ match_results = {
     "replay_id": [],
     "replay_battle_type_name": []
 }
+
+match_results_template: dict = copy.deepcopy(match_results)
 
 # Data fetching: Can only fetch the last 100 matches through 10 pages.
 for page in tqdm.tqdm(range(1, 11)):
@@ -194,15 +193,17 @@ df_matches = pd.DataFrame(match_results)
 # Convert match date into a readable timestamp
 df_matches["uploaded_at"] = df_matches["uploaded_at"].map(datetime.datetime.fromtimestamp)
 
-# Concat with old data if it exists
-if (os.path.exists(excel_file)):
-    old_matches: pd.DataFrame = pd.read_excel(excel_file)
 
-    df_matches = pd.concat([old_matches, df_matches])
+
+# Concat with old data if it exists
+old_matches: pd.DataFrame = pd.read_excel(excel_file) if (os.path.exists(excel_file)) else pd.DataFrame(match_results_template)
+
+df_matches = pd.concat([old_matches, df_matches])
 
 # Remove duplicate in case of overlapping matches with old data + sort by descending match date
 df_matches = df_matches.drop_duplicates().sort_values("uploaded_at", ascending=False)
 
+new_match_retrieved: int = len(df_matches) - len(old_matches)
 
 # Save data into a xlsx file
 df_matches.to_excel(
@@ -210,6 +211,8 @@ df_matches.to_excel(
     index=False
 )
 
-print(f"\nTotal of {len(df_matches)} matches are now saved in {repr(excel_file)} file.\n")
+print(
+  f"\nTotal of {new_match_retrieved} new matche(s) retrieved.\n{len(df_matches)} matches are now saved in {repr(excel_file)} file.\n"
+)
 
 
