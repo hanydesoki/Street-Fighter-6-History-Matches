@@ -158,8 +158,8 @@ for page in tqdm.tqdm(range(1, 11)):
         main_player_platform: str = main_player["player"]["platform_name"]
         opposite_player_platform: str = opposite_player["player"]["platform_name"]
 
-        main_player_mr: int = main_player["master_rating"]
-        opposite_player_mr: int = opposite_player["master_rating"]
+        main_player_mr: int = main_player.get("master_rating", None)
+        opposite_player_mr: int = opposite_player.get("master_rating", None)
 
         match_won: bool = main_player_score > opposite_player_score
 
