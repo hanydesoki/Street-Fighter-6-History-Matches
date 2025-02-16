@@ -185,14 +185,10 @@ for page in tqdm.tqdm(range(1, 11)):
         match_results["replay_id"].append(replay["replay_id"])
         match_results["replay_battle_type_name"].append(replay["replay_battle_type_name"])
 
-
-
 df_matches: pd.DataFrame = pd.DataFrame(match_results)
 
 # Convert match date into a readable timestamp
 df_matches["uploaded_at"] = df_matches["uploaded_at"].map(datetime.datetime.fromtimestamp)
-
-
 
 # Concat with old data if it exists
 old_matches: pd.DataFrame = pd.read_excel(excel_file) if (os.path.exists(excel_file)) else pd.DataFrame(match_results_template)
