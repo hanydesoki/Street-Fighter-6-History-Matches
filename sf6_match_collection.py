@@ -90,7 +90,7 @@ def scrapp_sf6_matches(player_sid: int) -> None:
   base_url: str = f"https://www.streetfighter.com/6/buckler/_next/data/5Qf16SWkd2SZoNO6yXdEg/en/profile/{player_sid}/battlelog.json"
 
   # Retrieve headers
-  with open("headers_test.json") as f:
+  with open("headers.json") as f:
       headers: dict = json.load(f)
 
   # Data collection initialization
