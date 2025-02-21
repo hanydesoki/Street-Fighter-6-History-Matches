@@ -87,7 +87,7 @@ def scrapp_sf6_matches(player_sid: int) -> None:
       input(f"This script will save on {repr(excel_file)} file. Make sure it is closed and press ENTER to proceed.\n")
 
   # HTTPS request setup
-  base_url: str = f"https://www.streetfighter.com/6/buckler/_next/data/5Qf16SWkd2SZoNO6yXdEg/en/profile/{player_sid}/battlelog.json"
+  base_url: str = f"https://www.streetfighter.com/6/buckler/_next/data/gx8EV1nUmBUeAOVLtM_qu/en/profile/{player_sid}/battlelog.json"
 
   # Retrieve headers
   with open("headers.json") as f:
