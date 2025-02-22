@@ -128,93 +128,94 @@ def scrapp_sf6_matches(player_sid: int) -> None:
 
   print("Fetching the last 100 matches...")
   # Data fetching: Can only fetch the last 100 matches through 10 pages.
-  for page in tqdm.tqdm(range(1, 11)):
+  with requests.Session() as session:
+    for page in tqdm.tqdm(range(1, 11)):
 
-      # Fetch page data
-      response: requests.Response = requests.get(
-          url=base_url + f"?page={page}",
-          headers=headers
-      )
+        # Fetch page data
+        response: requests.Response = session.get(
+            url=base_url + f"?page={page}",
+            headers=headers
+        )
 
-      if not response.ok:
-          print(f"An error occured while fetching page {page}.")
-          print(f"Status error code: {response.status_code}.", end="\n\n")
-          continue
-      
-      # Parse json 
-      content: dict = json.loads(response.content.decode("ascii", errors="ignore").replace("[t]", ""))
+        if not response.ok:
+            print(f"An error occured while fetching page {page}.")
+            print(f"Status error code: {response.status_code}.", end="\n\n")
+            continue
+        
+        # Parse json 
+        content: dict = json.loads(response.content.decode("ascii", errors="ignore").replace("[t]", ""))
 
-      replay_list: list = content["pageProps"]["replay_list"]
+        replay_list: list = content["pageProps"]["replay_list"]
 
-      # Loop through the matches data and collect all the relevant informations
-      for replay in replay_list:
-          player_1: dict = replay["player1_info"]
-          player_2: dict = replay["player2_info"]
+        # Loop through the matches data and collect all the relevant informations
+        for replay in replay_list:
+            player_1: dict = replay["player1_info"]
+            player_2: dict = replay["player2_info"]
 
-          left_side: bool = player_1["player"]["short_id"] == player_sid
+            left_side: bool = player_1["player"]["short_id"] == player_sid
 
-          main_player: dict = player_1 if left_side else player_2
-          opposite_player: dict = player_2 if left_side else player_1
+            main_player: dict = player_1 if left_side else player_2
+            opposite_player: dict = player_2 if left_side else player_1
 
-          main_player_score: int = sum(r > 0 for r in main_player["round_results"])
-          opposite_player_score: int = sum(r > 0 for r in opposite_player["round_results"])
+            main_player_score: int = sum(r > 0 for r in main_player["round_results"])
+            opposite_player_score: int = sum(r > 0 for r in opposite_player["round_results"])
 
-          main_player_name: str = main_player["player"]["fighter_id"]
-          opposite_player_name:str = opposite_player["player"]["fighter_id"]
+            main_player_name: str = main_player["player"]["fighter_id"]
+            opposite_player_name:str = opposite_player["player"]["fighter_id"]
 
-          main_player_sid: str = main_player["player"]["short_id"]
-          opposite_player_sid:str = opposite_player["player"]["short_id"]
+            main_player_sid: str = main_player["player"]["short_id"]
+            opposite_player_sid:str = opposite_player["player"]["short_id"]
 
-          main_player_character: str = main_player["character_name"]
-          opposite_player_character: str = opposite_player["character_name"]
+            main_player_character: str = main_player["character_name"]
+            opposite_player_character: str = opposite_player["character_name"]
 
-          main_player_input_type: str = main_player["battle_input_type"]
-          opposite_player_input_type: str = opposite_player["battle_input_type"]
+            main_player_input_type: str = main_player["battle_input_type"]
+            opposite_player_input_type: str = opposite_player["battle_input_type"]
 
-          main_player_platform: str = main_player["player"]["platform_name"]
-          opposite_player_platform: str = opposite_player["player"]["platform_name"]
+            main_player_platform: str = main_player["player"]["platform_name"]
+            opposite_player_platform: str = opposite_player["player"]["platform_name"]
 
-          main_player_mr: int = main_player.get("master_rating", None)
-          opposite_player_mr: int = opposite_player.get("master_rating", None)
+            main_player_mr: int = main_player.get("master_rating", None)
+            opposite_player_mr: int = opposite_player.get("master_rating", None)
 
-          main_player_lp: int = main_player.get("league_point", None)
-          opposite_player_lp: int = opposite_player.get("league_point", None)
+            main_player_lp: int = main_player.get("league_point", None)
+            opposite_player_lp: int = opposite_player.get("league_point", None)
 
-          main_player_mr_ranking: int = main_player.get("master_rating_ranking", None)
-          opposite_player_mr_ranking: int = main_player.get("master_rating_ranking", None)
+            main_player_mr_ranking: int = main_player.get("master_rating_ranking", None)
+            opposite_player_mr_ranking: int = main_player.get("master_rating_ranking", None)
 
-          main_player_league_rank: int = main_player.get("league_rank", None)
-          opposite_player_league_rank: int = main_player.get("league_rank", None)
-          
-          match_won: bool = main_player_score > opposite_player_score
+            main_player_league_rank: int = main_player.get("league_rank", None)
+            opposite_player_league_rank: int = main_player.get("league_rank", None)
+            
+            match_won: bool = main_player_score > opposite_player_score
 
-          match_results["main_player_name"].append(main_player_name)
-          match_results["main_player_sid"].append(main_player_sid)
-          match_results["main_player_character"].append(main_player_character)
-          match_results["main_player_score"].append(main_player_score)
-          match_results["main_player_mr"].append(main_player_mr)
-          match_results["main_player_lp"].append(main_player_lp)
-          match_results["main_player_input_type"].append(main_player_input_type)
-          match_results["main_player_platform"].append(main_player_platform)
-          match_results["main_player_mr_ranking"].append(main_player_mr_ranking)
-          match_results["main_player_league_rank"].append(main_player_league_rank)
+            match_results["main_player_name"].append(main_player_name)
+            match_results["main_player_sid"].append(main_player_sid)
+            match_results["main_player_character"].append(main_player_character)
+            match_results["main_player_score"].append(main_player_score)
+            match_results["main_player_mr"].append(main_player_mr)
+            match_results["main_player_lp"].append(main_player_lp)
+            match_results["main_player_input_type"].append(main_player_input_type)
+            match_results["main_player_platform"].append(main_player_platform)
+            match_results["main_player_mr_ranking"].append(main_player_mr_ranking)
+            match_results["main_player_league_rank"].append(main_player_league_rank)
 
-          match_results["opposite_player_name"].append(opposite_player_name)
-          match_results["opposite_player_sid"].append(opposite_player_sid)
-          match_results["opposite_player_character"].append(opposite_player_character)
-          match_results["opposite_player_score"].append(opposite_player_score)
-          match_results["opposite_player_mr"].append(opposite_player_mr)
-          match_results["opposite_player_lp"].append(opposite_player_lp)
-          match_results["opposite_player_input_type"].append(opposite_player_input_type)
-          match_results["opposite_player_platform"].append(opposite_player_platform)
-          match_results["opposite_player_mr_ranking"].append(opposite_player_mr_ranking)
-          match_results["opposite_player_league_rank"].append(opposite_player_league_rank)
+            match_results["opposite_player_name"].append(opposite_player_name)
+            match_results["opposite_player_sid"].append(opposite_player_sid)
+            match_results["opposite_player_character"].append(opposite_player_character)
+            match_results["opposite_player_score"].append(opposite_player_score)
+            match_results["opposite_player_mr"].append(opposite_player_mr)
+            match_results["opposite_player_lp"].append(opposite_player_lp)
+            match_results["opposite_player_input_type"].append(opposite_player_input_type)
+            match_results["opposite_player_platform"].append(opposite_player_platform)
+            match_results["opposite_player_mr_ranking"].append(opposite_player_mr_ranking)
+            match_results["opposite_player_league_rank"].append(opposite_player_league_rank)
 
-          match_results["match_won"].append(int(match_won))
-          match_results["left_side"].append(int(left_side))
-          match_results["uploaded_at"].append(replay["uploaded_at"])
-          match_results["replay_id"].append(replay["replay_id"])
-          match_results["replay_battle_type_name"].append(replay["replay_battle_type_name"])
+            match_results["match_won"].append(int(match_won))
+            match_results["left_side"].append(int(left_side))
+            match_results["uploaded_at"].append(replay["uploaded_at"])
+            match_results["replay_id"].append(replay["replay_id"])
+            match_results["replay_battle_type_name"].append(replay["replay_battle_type_name"])
 
   df_matches: pd.DataFrame = pd.DataFrame(match_results)
 
